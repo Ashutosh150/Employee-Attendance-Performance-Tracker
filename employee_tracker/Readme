@@ -1,0 +1,175 @@
+file-structure :
+
+employee_tracker/
+├── app/
+│   ├── __init__.py
+│   ├── employee_manager.py        # OOP logic
+│   ├── storage.json               # JSON data
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── auth_utils.py          # PIN login
+│   │   ├── file_utils.py          # backups
+│   │   └── report_utils.py        # PDF/email
+├── logs/
+│   └── tracker.log                # logs saved here
+├── .env                           # for PIN & email creds
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml            # optional later
+├── .gitignore
+├── run.py                        # to launch from Docker
+└── frontend_app.py               # Streamlit UI
+
+Flow -->
+
+🗂 STEP 1: Basic Backend (Python OOP)
+Start with employee_manager.py to support:
+
+Add employee
+
+View all
+
+Mark attendance (with timestamp)
+
+Record performance comment
+
+Save/load to storage.json
+
+Example starter class layout:
+
+python
+Copy
+Edit
+# app/employee_manager.py
+[
+    {
+        import json
+    from datetime import datetime
+
+    class EmployeeManager:
+        def __init__(self, storage_file):
+            self.storage_file = storage_file
+            self.employees = self.load_data()
+
+        def load_data(self):
+            try:
+                with open(self.storage_file, 'r') as f:
+                    return json.load(f)
+            except FileNotFoundError:
+                return {}
+
+        def save_data(self):
+            with open(self.storage_file, 'w') as f:
+                json.dump(self.employees, f, indent=4)
+
+        def add_employee(self, emp_id, name, department):
+            if emp_id in self.employees:
+                return False
+            self.employees[emp_id] = {
+                "name": name,
+                "department": department,
+                "attendance": [],
+                "performance": []
+            }
+            self.save_data()
+            return True
+
+        def mark_attendance(self, emp_id):
+            if emp_id in self.employees:
+                self.employees[emp_id]["attendance"].append(str(datetime.now()))
+                self.save_data()
+                return True
+            return False
+
+        def add_performance(self, emp_id, comment):
+            if emp_id in self.employees:
+                self.employees[emp_id]["performance"].append({
+                    "comment": comment,
+                    "date": str(datetime.now())
+                })
+                self.save_data()
+                return True
+            return False
+
+        def get_all_employees(self):
+            return self.employees}
+
+]        
+🗂 STEP 2: Frontend (Streamlit)
+Login screen (PIN check)
+
+Form to add employee
+
+Buttons to mark attendance / performance
+
+View employee data
+
+We’ll plug it into frontend_app.py once your backend is working.
+
+🗂 STEP 3: Utilities
+auth_utils.py: PIN-based login using os.getenv() from .env
+
+file_utils.py: Backup data daily
+
+report_utils.py: Email PDF weekly summary (can come later)
+
+🐳 STEP 4: Dockerize (after testing locally)
+requirements.txt
+
+Dockerfile
+
+(Optional) docker-compose.yml
+
+🔁 Workflow You’ll Follow
+Build OOP logic
+
+Add Streamlit frontend
+
+Add PIN-based auth
+
+Add weekly PDF/email
+
+Add logging
+
+Dockerize app
+
+Optionally deploy with Docker Compose
+
+--------------------------------------------
+#to build file structure using linux/cmd -->
+
+mkdir employee_tracker
+cd employee_tracker
+
+# Create subfolders
+mkdir app
+mkdir app/utils
+mkdir logs
+
+# Create empty starter files
+touch app/__init__.py
+touch app/employee_manager.py
+touch app/storage.json
+touch app/utils/__init__.py
+touch app/utils/auth_utils.py
+touch app/utils/file_utils.py
+touch app/utils/report_utils.py
+touch logs/tracker.log
+touch .env
+touch requirements.txt
+touch Dockerfile
+touch .gitignore
+touch run.py
+touch frontend_app.py
+
+--------------------------------------------
+# .gitignore -->
+__pycache__/ → ignores the whole folder where Python stores compiled files
+
+*.pyc → ignores compiled bytecode files directly
+
+.env → hides your secrets (PIN, email passwords)
+
+logs/ → hides logs like tracker.log
+
+--------------------------------------------

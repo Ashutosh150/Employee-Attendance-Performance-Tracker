@@ -1,0 +1,41 @@
+{
+    "E001": {
+        "name": "Ashutosh.Pal",
+        "department": "IT",
+        "attendance": [
+            "2025-07-15 19:06:25.277552"
+        ],
+        "performance": [
+            {
+                "comment": "Excellent performance in the last project.",
+                "date": "2025-07-15 19:06:25.282025"
+            }
+        ]
+    },
+    "E002": {
+        "name": "Chaitra.Pal",
+        "department": "IT",
+        "attendance": [
+            "2025-07-15 19:07:16.487069"
+        ],
+        "performance": [
+            {
+                "comment": "Excellent performance in the Current project.",
+                "date": "2025-07-15 19:07:16.489903"
+            }
+        ]
+    },
+    "E003": {
+        "name": "Nanu",
+        "department": "Pycho_Doc",
+        "attendance": [
+            "2025-07-15 19:11:04.008143"
+        ],
+        "performance": [
+            {
+                "comment": "Average Performance.",
+                "date": "2025-07-15 19:11:04.012050"
+            }
+        ]
+    }
+}
