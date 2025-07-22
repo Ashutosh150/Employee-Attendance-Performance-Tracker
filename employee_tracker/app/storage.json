@@ -1,9 +1,10 @@
 {
     "E001": {
-        "name": "Ashutosh.Pal",
+        "name": "Ashutosh. S. Pal",
         "department": "IT",
         "attendance": [
-            "2025-07-15 19:06:25.277552"
+            "2025-07-15 19:06:25.277552",
+            "2025-07-19 14:10:05.215725"
         ],
         "performance": [
             {
@@ -40,6 +41,19 @@
             {
                 "comment": "Average Performance.",
                 "date": "2025-07-15 19:11:04.012050"
+            }
+        ]
+    },
+    "E010": {
+        "name": "Janvi Pal",
+        "department": "HR",
+        "attendance": [
+            "2025-07-19 14:09:50.433860"
+        ],
+        "performance": [
+            {
+                "comment": "Well done. Excellent Performance",
+                "date": "2025-07-19 14:14:19.003872"
             }
         ]
     }

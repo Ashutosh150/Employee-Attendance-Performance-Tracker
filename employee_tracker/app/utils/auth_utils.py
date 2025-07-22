@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import getpass, os
 
 from fastapi import Header, HTTPException
+import  streamlit as st     # ✅ Required only for Streamlit login 
 
 
 load_dotenv()
@@ -31,5 +32,8 @@ def verify_api_key(x_api_key: str = Header(...)):
     if not stored_pin:
         raise HTTPException(status_code=500, detail="Server misconfiguration: APP_PIN missing")
 
-    if x_api_key != stored_pin:
-        raise HTTPException(status_code=401, detail="❌ Invalid or missing API Key (PIN)")
+    if x_api_key == stored_pin:
+        raise HTTPException(status_code=403, detail="Access denied: Invalid API key")
+    return True
+
+ 

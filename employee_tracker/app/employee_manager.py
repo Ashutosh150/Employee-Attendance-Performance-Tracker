@@ -99,6 +99,24 @@ class EmployeeManager :
             return None
         
         return self.employees[emp_id].to_dict()
+    
+
+    #5. Update employee details like name or department by gettin emp_id from user and doing all minor checks before update process
+    def update_employee(self, emp_id, name=None, department=None):
+        emp = self.employees.get(emp_id)
+        if not emp:
+            print(f"Employee {emp_id} does not exist")
+            return False
+        
+        if name:
+            emp.name = name.title()
+        
+        if department:
+            emp.department = department
+        
+        self.save_empData__toStorage()
+        print(f"Employee {emp_id} updated successfully")
+        return True
         
 
 

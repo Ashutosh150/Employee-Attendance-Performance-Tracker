@@ -89,3 +89,18 @@ def delete_employee(emp_id: str):
     manager.save_empData__toStorage()
     
     return {"message": f"Employee {emp_id} deleted successfully"}
+
+
+#----
+# This endpoint is for uopdating the employee data as per update login from employee manager
+@router.put("/{emp_id}/update")
+def update_employee(emp_id: str, data: EmployeeUpdateRequest):
+    if emp_id not in manager.employees:
+        raise HTTPException(status_code=404, detail="Employee not found")
+
+    emp = manager.employees[emp_id]
+    emp.name = data.name.title()
+    emp.department = data.department
+    manager.save_empData__toStorage()
+
+    return {"message": f"Employee {emp_id} updated successfully"}   
