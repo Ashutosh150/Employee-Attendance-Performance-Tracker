@@ -173,3 +173,174 @@ __pycache__/ → ignores the whole folder where Python stores compiled files
 logs/ → hides logs like tracker.log
 
 --------------------------------------------
+
+
+# 📊 Employee Tracker - FastAPI + Streamlit + Docker
+
+> A real-world Employee Management System built with **Python**, **FastAPI**, **Streamlit**, and **Docker**, supporting attendance, performance tracking, and secure PIN-based access.
+
+---
+
+## 📁 Folder Structure Overview
+
+```
+employee-tracker/
+├── app/
+│   ├── models/
+│   │   └── employee.py
+│   ├── manager.py
+│   ├── auth.py
+│   └── storage.json
+├── api/
+│   └── main.py         # FastAPI backend
+├── streamlit_app.py    # Streamlit frontend
+├── run.py              # Optional CLI runner
+├── .env                # Contains APP_PIN (Do NOT push)
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## ✅ Features Implemented
+
+* Add, View, Update, and Delete Employees
+* Attendance and Performance Review per employee
+* Persistent JSON-based storage
+* PIN-based Authentication using `getpass` and `.env`
+* REST API powered by FastAPI
+* Frontend using Streamlit
+* Fully Dockerized via `docker-compose`
+
+---
+
+## 🔐 .env Configuration
+
+Create a `.env` file in the root:
+
+```
+APP_PIN=1234
+```
+
+> This is used for PIN authentication in both CLI and FastAPI headers.
+
+---
+
+## 🚀 Setup & Run Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/employee-tracker.git
+cd employee-tracker
+```
+
+### 2. Install Dependencies (for local run)
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run FastAPI Backend
+
+```bash
+uvicorn api.main:app --reload
+```
+
+### 4. Run Streamlit Frontend
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Access frontend at: [http://localhost:8501](http://localhost:8501)
+
+---
+
+## 🐳 Docker Setup
+
+### 1. Build Docker Image
+
+```bash
+docker-compose build
+```
+
+### 2. Run Entire App
+
+```bash
+docker-compose up
+```
+
+### 3. Access
+
+* Streamlit: [http://localhost:8501](http://localhost:8501)
+* FastAPI Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 🔗 FastAPI Endpoints (Sample)
+
+* `POST /add` - Add Employee
+* `GET /employees` - Get all Employees
+* `GET /employee/{emp_id}` - Fetch by ID
+* `PUT /employee/{emp_id}` - Update Employee
+* `POST /attendance` - Mark Attendance
+* `POST /performance` - Add Performance Review
+
+> All endpoints require `x-pin` header for authentication.
+
+Example using curl:
+
+```bash
+curl -X GET http://localhost:8000/employees -H "x-pin: 1234"
+```
+
+---
+
+## 🧪 Testing Locally
+
+* You can test FastAPI endpoints using [http://localhost:8000/docs](http://localhost:8000/docs)
+* You can test Streamlit locally by entering PIN and using UI
+
+---
+
+## 📌 Notes
+
+* **PIN is handled securely** via environment variables, not hardcoded
+* **JSON** is used for lightweight persistent storage
+* **getpass** is used to avoid echoing PIN in terminal
+* FastAPI uses **dependency injection** for PIN validation in routes
+* Docker uses **internal networking** via service names in `docker-compose.yml`
+
+---
+
+## 📄 Future Enhancements
+
+* Email weekly performance reports
+* Export PDF summaries
+* JWT-based auth
+* CI/CD and live deployment (Render / Railway)
+
+---
+
+## 🙌 Credits
+
+Built by \[Your Name] for hands-on learning and practical backend/frontend development using Python ecosystem tools.
+
+---
+
+## 🧠 Skills Practiced
+
+* Python OOP and File Handling
+* FastAPI and REST principles
+* Streamlit frontend with stateful interactivity
+* Docker fundamentals and networking
+* Secure coding practices (PIN-based auth)
+
+---
+
+## 📬 Contact
+
+Feel free to connect for questions or improvements!
