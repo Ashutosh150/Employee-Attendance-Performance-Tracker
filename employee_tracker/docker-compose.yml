@@ -1,0 +1,105 @@
+# In Docker:
+#   When you create containers manually, you have to explicitly create a Docker network and attach containers to it:
+
+#   -- > docker network create tracker-net
+#   -- > docker run --network tracker-net ...
+
+#   This lets containers communicate using internal names like backend-api, frontend-ui, etc.
+
+# In Docker Compose:
+#   When using docker-compose.yml, Docker automatically:
+
+#   Creates a network for all services defined in the file
+
+#   Connects all services to that network by default
+
+#   Lets containers talk to each other by service name (e.g., api, frontend)
+
+#   Example of Compose Handling Networking:
+
+#   version: '3.9'
+#   services:
+#     api:
+#       build: .
+#       ports:
+#         - "8000:8000"
+#     frontend:
+#       build: .
+#       ports:
+#         - "8501:8501"
+
+
+#   ➡️ In this setup:
+#   FastAPI can be reached inside the container via http://api:8000
+#   Streamlit can talk to it using that internal name (api), not localhost
+
+#   No need to create a separate docker network create step — Compose handles it for you.
+
+# | Feature                | Docker CLI                       | Docker Compose                |
+# | ---------------------- | -------------------------------- | ----------------------------- |
+# | Create network         | Manual (`docker network create`) | Automatic                     |
+# | Connect containers     | Manually via `--network`         | Auto-connected via `services` |
+# | Internal communication | Use container name               | Use service name              |
+
+
+
+
+
+
+
+
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    container_name: employee-backend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    container_name: employee-frontend
+
+
+# | Key              | Description                                                      |
+# | ---------------- | ---------------------------------------------------------------- |
+# | `version`        | Compose file version (latest stable = 3.9)                       |
+# | `services`       | Defines each component of the app: `backend`, `frontend`         |
+# | `build`          | Tells Docker to use the `Dockerfile` in the current directory    |
+# | `command`        | Overrides CMD in Dockerfile (to run FastAPI or Streamlit server) |
+# | `ports`          | Maps container ports to host machine                             |
+# | `volumes`        | Mounts current dir to `/app` inside container                    |
+# | `env_file`       | Loads environment variables from `.env`                          |
+# | `depends_on`     | Ensures backend starts before frontend                           |
+# | `container_name` | Optional: gives container a readable name                        |
+
+
+# now run everything using --> docker-compose up --build
+
+# now we have 2 container's talking each other internally 
+# | Component | Access URL                                               |
+# | --------- | -------------------------------------------------------- |
+# | FastAPI   | [http://localhost:8000/docs](http://localhost:8000/docs) |
+# | Streamlit | [http://localhost:8501](http://localhost:8501)           |
+
+
+#lastly shut down container --> docker-compose down

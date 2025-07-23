@@ -1,6 +1,5 @@
 # this file is used to define the environment Docker should use to run your app
-
-# Use an official lightweight Python image
+#Use an official lightweight Python image
 FROM python:3.11-slim
 
 # Set the working directory inside the container
@@ -20,7 +19,26 @@ EXPOSE 8501
 # Set the default command (you can override during runtime)
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-#-- 
+# | Option             | Meaning                                                    |
+# | ------------------ | ---------------------------------------------------------- |
+# | `-p 8501:8501`     | Maps host's port 8501 to container's port 8501 (Streamlit) |
+# | `-p 8000:8000`     | Maps host's port 8000 to container's port 8000 (FastAPI)   |
+# | `--name`           | Gives the container a name (`employee-tracker-container`)  |
+# | `employee-tracker` | The image name you built                                   |
+
+# docker run -p 8501:8501 -p 8000:8000 --name employee-tracker-container employee-tracker
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # FROM python:3.11-slim: Base image with Python 3.11.
