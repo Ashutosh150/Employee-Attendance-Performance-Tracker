@@ -1,5 +1,6 @@
-from app.utils.auth_utils import verify_pin
-if not verify_pin() :
+from venv import logger
+from app.utils.auth_utils import verify_api_key
+if not verify_api_key() :
     exit()
 
 from app.employee_manager import EmployeeManager
@@ -22,6 +23,11 @@ manager = EmployeeManager()
 
 # testing get_employee_by_id
 emp_data = manager.get_employee_by_id("E003")
-print(emp_data)
+#print(emp_data)
 
+
+from app.utils.emailReport_utils import send_email_report
+# Example usage of send_email_report
+send_email_report("Test Subject", "This is a test email from Employee Tracker.")
+logger.info("Test email sent successfully.")
 

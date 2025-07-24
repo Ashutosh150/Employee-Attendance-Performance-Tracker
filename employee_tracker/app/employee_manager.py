@@ -1,6 +1,8 @@
 import json, os
 from datetime import datetime
 from app.models.employee import Employee
+from app.utils.logger import logger
+from app.utils.emailReport_utils import send_email_report
 
 class EmployeeManager :
 
@@ -33,6 +35,18 @@ class EmployeeManager :
             print(f"Failed to save Employee: {e}")
 
 
+    # Send email report after saving data
+        def weekly_summary_report(self):
+            report = "\n".join(
+                f"{emp_id}: {emp.name}, Department: {emp.department}, Attendance: {emp.attendance}, Performance: {emp.performance}"
+                for emp_id, emp in self.employees.items()
+            )
+            logger.info("Sending weekly summary report via email.")
+            send_email_report(
+                subject="Weekly Employee Summary Report",
+                body=report
+            )
+
 
 
     # ------------------ ACTUAL LOGIC STARTS ---------------
@@ -55,7 +69,8 @@ class EmployeeManager :
 
         print(f"Employee Added {emp_id}")
         self.save_empData__toStorage()
-        
+
+        logger.info(f"Employee {emp_id} added successfully.")
         return True
 
 
@@ -70,6 +85,7 @@ class EmployeeManager :
         self.save_empData__toStorage()
         
         print(f"Attendance marked for {emp_id}")
+        logger.info(f"Attendance marked for employee {emp_id} on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         return True
     
     #3. Add performance review for employee that exists and save to storage
@@ -85,6 +101,7 @@ class EmployeeManager :
         self.save_empData__toStorage()
         
         print(f"Performance review added for {emp_id}")
+        logger.info(f"Performance review added for employee {emp_id} on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} with comment: {comment}")
         return True
     
     #4. Get all employee details
@@ -101,7 +118,7 @@ class EmployeeManager :
         return self.employees[emp_id].to_dict()
     
 
-    #5. Update employee details like name or department by gettin emp_id from user and doing all minor checks before update process
+    #6. Update employee details like name or department by gettin emp_id from user and doing all minor checks before update process
     def update_employee(self, emp_id, name=None, department=None):
         emp = self.employees.get(emp_id)
         if not emp:
@@ -116,6 +133,7 @@ class EmployeeManager :
         
         self.save_empData__toStorage()
         print(f"Employee {emp_id} updated successfully")
+        logger.info(f"Employee {emp_id} updated successfully with name: {name}, department: {department}")
         return True
         
 
